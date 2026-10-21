@@ -1,0 +1,38 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+ *  HARD TIMES — Canada 1928  |  play-mode.css
+ *  Mode picker on the intro screen (Classroom Mode / Free Play)
+ * ═══════════════════════════════════════════════════════════════════════════ */
+
+.mode-select {
+  width: 100%; max-width: 440px;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  margin-bottom: 24px;
+}
+.mode-label {
+  font-family: 'Courier Prime', monospace; font-size: 9px;
+  letter-spacing: 3px; text-transform: uppercase; color: var(--faded);
+}
+.mode-options {
+  width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+}
+.mode-option {
+  font-family: 'Special Elite', cursive; text-align: left;
+  background: var(--paper-dark); color: var(--ink);
+  border: 1px solid var(--rule); padding: 10px 12px; cursor: pointer;
+  display: flex; flex-direction: column; gap: 4px;
+  transition: background 0.12s, box-shadow 0.12s;
+}
+.mode-option:hover { background: #ece0bc; }
+.mode-option.selected { background: #e4d4a0; box-shadow: inset 0 0 0 3px var(--ink); }
+.mode-option-title { font-size: 14px; line-height: 1.1; }
+.mode-option-title::before { content: "○ "; color: var(--faded); }
+.mode-option.selected .mode-option-title::before { content: "● "; color: var(--ink); }
+.mode-option-desc {
+  font-family: 'Courier Prime', monospace; font-size: 9.5px;
+  line-height: 1.45; color: var(--faded);
+}
+.mode-option.selected .mode-option-desc { color: var(--ink); }
+
+@media (max-width: 480px) {
+  .mode-options { grid-template-columns: 1fr; }
+}

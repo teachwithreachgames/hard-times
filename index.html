@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hard Times — Canada 1928</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="play-mode.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     SCREEN 1 · INTRO
+     ═══════════════════════════════════════════════════════════════════ -->
+<div id="screen-intro" class="screen active">
+  <div class="lang-toggle-intro">
+    <button class="lang-btn" id="lang-btn-intro" onclick="toggleLanguage()">FR · Français</button>
+  </div>
+  <div class="page-card">
+    <p class="copyright-notice">© 2026 Teach With Reach. All rights reserved. This game, including its design, mechanics, visuals, and written content, may not be reproduced or distributed without written permission from Teach With Reach.</p>
+    <p class="intro-eyebrow">A Canadian Historical Simulation · Grade 10</p>
+    <div class="intro-title">Hard Times</div>
+    <div class="intro-subtitle">Canada · 1928 – 1939</div>
+    <div class="intro-rule"></div>
+    <p class="intro-body">
+      The year is 1928. Stocks are rising, wages are steady, and the future
+      looks bright. <em>It won't last.</em>
+      <br><br>
+      In October 1929, the Wall Street Crash will shatter the North American
+      economy. Factories will close. Farms will fail. One in four Canadians
+      will be out of work. The Dirty Thirties have arrived.
+      <br><br>
+      You will live through it — as a real Canadian, in a real place, with
+      real bills to pay. Invest wisely, protect your household, and try to
+      survive twelve years of the Great Depression.
+    </p>
+    <div class="name-entry">
+      <label class="name-label" for="student-name-input">Your Name</label>
+      <input type="text" id="student-name-input" class="name-input"
+             placeholder="First and last name"
+             oninput="validateNameEntry()" autocomplete="name"/>
+      <p class="name-hint">Required — your name will appear on your reflection journal.</p>
+    </div>
+    <div class="mode-select">
+      <div class="mode-label" id="mode-label">Choose a Mode</div>
+      <div class="mode-options" role="radiogroup" aria-labelledby="mode-label">
+        <button type="button" class="mode-option selected" data-mode="classroom"
+                role="radio" aria-checked="true" onclick="selectPlayMode('classroom')">
+          <span class="mode-option-title">Classroom Mode</span>
+          <span class="mode-option-desc">Answer a reflection question at the end of each year and download your Reflection Journal.</span>
+        </button>
+        <button type="button" class="mode-option" data-mode="free"
+                role="radio" aria-checked="false" onclick="selectPlayMode('free')">
+          <span class="mode-option-title">Free Play</span>
+          <span class="mode-option-desc">No questions — just play through the Depression from 1928 to 1939.</span>
+        </button>
+      </div>
+    </div>
+    <button class="screen-btn" id="btn-begin" onclick="beginFromIntro()" disabled>Begin</button>
+    <p class="intro-footer">Based on Canadian economic history · 1928–1939</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     SCREEN 2 · CHARACTER SELECTION
+     ═══════════════════════════════════════════════════════════════════ -->
+<div id="screen-character" class="screen">
+  <div class="page-card">
+    <div class="char-header">
+      <div class="char-header-title">Choose Your Story</div>
+      <div class="char-header-sub">The Depression touched every corner of Canada — who will you be?</div>
+    </div>
+
+    <div class="char-grid">
+
+      <!-- Character 1: Prairie Farmer -->
+      <div class="char-card" data-char-id="farmer" onclick="selectCharacter('farmer')">
+        <img src="players/elias.png" class="char-photo" alt="Elias Nowak"/>
+        <div class="char-province">Saskatchewan</div>
+        <div class="char-name">Elias Nowak</div>
+        <div class="char-occupation">Wheat Farmer</div>
+        <div class="char-prairie-badge">⚠ Prairie Drought Risk</div>
+        <div class="char-divider"></div>
+        <p class="char-story">You broke prairie sod a decade ago and finally own your quarter-section outright. The rains have been good and wheat prices are rising. You've scraped together $800 to try your luck on Bay Street.</p>
+        <div class="char-stats">
+          <div class="char-stat-row"><span>Starting Cash</span><span class="char-stat-value">$800</span></div>
+          <div class="char-stat-row"><span>Monthly Wage</span><span class="char-stat-value">$32</span></div>
+          <div class="char-stat-row"><span>Food + Rent</span><span class="char-stat-value">$14/mo</span></div>
+          <div class="char-difficulty diff-hard">Hard</div>
+        </div>
+      </div>
+
+      <!-- Character 2: Factory Worker -->
+      <div class="char-card" data-char-id="worker" onclick="selectCharacter('worker')">
+        <img src="players/margaret.png" class="char-photo" alt="Margaret Chen"/>
+        <div class="char-province">Hamilton, Ontario</div>
+        <div class="char-name">Margaret Chen</div>
+        <div class="char-occupation">Steel Factory Worker</div>
+        <div class="char-divider"></div>
+        <p class="char-story">Six years on the foundry floor at Dominion Steel. Steady wages, steady hours — and a small savings account your foreman says you should put to work on Bay Street before someone else does.</p>
+        <div class="char-stats">
+          <div class="char-stat-row"><span>Starting Cash</span><span class="char-stat-value">$1,000</span></div>
+          <div class="char-stat-row"><span>Monthly Wage</span><span class="char-stat-value">$45</span></div>
+          <div class="char-stat-row"><span>Food + Rent</span><span class="char-stat-value">$23/mo</span></div>
+          <div class="char-difficulty diff-medium">Medium</div>
+        </div>
+      </div>
+
+      <!-- Character 3: Coal Miner -->
+      <div class="char-card" data-char-id="miner" onclick="selectCharacter('miner')">
+        <img src="players/alastair.png" class="char-photo" alt="Alistair MacLeod"/>
+        <div class="char-province">Cape Breton, N.S.</div>
+        <div class="char-name">Alistair MacLeod</div>
+        <div class="char-occupation">Coal Miner</div>
+        <div class="char-divider"></div>
+        <p class="char-story">Dominion Coal pays well enough — but every man underground knows one bad quarter can shutter a mine for months. You've saved a little more than most, just in case. The bay air is damp and the work is dangerous.</p>
+        <div class="char-stats">
+          <div class="char-stat-row"><span>Starting Cash</span><span class="char-stat-value">$900</span></div>
+          <div class="char-stat-row"><span>Monthly Wage</span><span class="char-stat-value">$52</span></div>
+          <div class="char-stat-row"><span>Food + Rent</span><span class="char-stat-value">$23/mo</span></div>
+          <div class="char-difficulty diff-medium">Medium</div>
+        </div>
+      </div>
+
+      <!-- Character 4: Shopkeeper -->
+      <div class="char-card" data-char-id="shopkeeper" onclick="selectCharacter('shopkeeper')">
+        <img src="players/henri.png" class="char-photo" alt="Henri Bouchard"/>
+        <div class="char-province">Montreal, Quebec</div>
+        <div class="char-name">Henri Bouchard</div>
+        <div class="char-occupation">General Store Owner</div>
+        <div class="char-divider"></div>
+        <p class="char-story">Your shop on Saint-Laurent has served the neighbourhood for fifteen years. Business is brisk in 1928 — and a broker at the Board of Trade has been suggesting the stock market for months. Perhaps it is time.</p>
+        <div class="char-stats">
+          <div class="char-stat-row"><span>Starting Cash</span><span class="char-stat-value">$1,200</span></div>
+          <div class="char-stat-row"><span>Monthly Wage</span><span class="char-stat-value">$40</span></div>
+          <div class="char-stat-row"><span>Food + Rent</span><span class="char-stat-value">$28/mo</span></div>
+          <div class="char-difficulty diff-easy">Easy</div>
+        </div>
+      </div>
+
+      <!-- Character 5: Dockworker -->
+      <div class="char-card" data-char-id="dockworker" onclick="selectCharacter('dockworker')">
+        <img src="players/thomas.png" class="char-photo" alt="Thomas O'Brien"/>
+        <div class="char-province">Vancouver, B.C.</div>
+        <div class="char-name">Thomas O'Brien</div>
+        <div class="char-occupation">Dockworker</div>
+        <div class="char-divider"></div>
+        <p class="char-story">The docks pay well when the ships are running. Vancouver is booming on Pacific trade — lumber, fish, grain. A few men you work with have made real money on the Vancouver Stock Exchange. Maybe you can too.</p>
+        <div class="char-stats">
+          <div class="char-stat-row"><span>Starting Cash</span><span class="char-stat-value">$1,000</span></div>
+          <div class="char-stat-row"><span>Monthly Wage</span><span class="char-stat-value">$48</span></div>
+          <div class="char-stat-row"><span>Food + Rent</span><span class="char-stat-value">$25/mo</span></div>
+          <div class="char-difficulty diff-medium">Medium</div>
+        </div>
+      </div>
+
+    </div><!-- end .char-grid -->
+
+    <div class="char-footer">
+      <span class="char-footer-hint">Click a character to select, then continue →</span>
+      <div style="display:flex;gap:10px">
+        <button class="screen-btn secondary" onclick="showScreen('screen-intro')">← Back</button>
+        <button class="screen-btn" id="btn-to-rules" onclick="proceedToRules()" disabled>Continue →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     SCREEN 3 · RULES
+     ═══════════════════════════════════════════════════════════════════ -->
+<div id="screen-rules" class="screen">
+  <div class="page-card">
+    <div class="rules-header">
+      <div class="rules-title">How to Survive the Dirty Thirties</div>
+      <div class="rules-date">Investor's Guide · January 1928</div>
+    </div>
+
+    <div class="rules-columns">
+      <!-- Column 1: The Market -->
+      <div class="rules-col">
+        <div class="rules-col-heading">I. Investments</div>
+        <div class="rules-col-title">The Market</div>
+        <div class="rules-body">
+          <p>Each month, stock prices move up or down based on the <strong>market index</strong>. Stocks with higher <strong>volatility</strong> swing harder than the index — bigger gains in good times, bigger losses in bad.</p>
+          <div class="rule-item"><strong>Buy</strong> — spend cash to purchase shares. Prices are set by the market each month.</div>
+          <div class="rule-item"><strong>Sell</strong> — convert shares back to cash at the current price.</div>
+          <div class="rule-item"><strong>Borrow</strong> — take a broker loan to buy more stock than you can afford. This is called buying "on margin."</div>
+          <div class="rule-item"><strong>Repay</strong> — pay down your loan before interest consumes you. The rate is 5% per month.</div>
+          <p>If your <strong>Portfolio ÷ Debt ratio</strong> drops below 25%, the broker seizes and sells your shares automatically. This is a <strong>margin call</strong> — the event that destroyed thousands of investors in 1929.</p>
+        </div>
+      </div>
+
+      <!-- Column 2: The Household -->
+      <div class="rules-col">
+        <div class="rules-col-heading">II. Household</div>
+        <div class="rules-col-title">Daily Life</div>
+        <div class="rules-body">
+          <p>Every month your household runs whether the market is up or down. Wages come in; food and rent go out.</p>
+          <div class="rule-item"><strong>Monthly Flow</strong> = wages − food − rent. A positive flow builds your cash. A negative flow drains it.</div>
+          <div class="rule-item"><strong>Job loss</strong> eliminates your wages immediately. If you lose your job the same month expenses are due, your cash will drop sharply.</div>
+          <div class="rule-item"><strong>Relief payments</strong> arrive when you are unemployed — but they are small and irregular.</div>
+          <p>If your cash runs out and you still hold stocks, they will be <strong>sold automatically</strong> — cheapest first — to cover your food and rent. You cannot starve on paper profits.</p>
+        </div>
+      </div>
+
+      <!-- Column 3: Winning & Losing -->
+      <div class="rules-col">
+        <div class="rules-col-heading">III. Survival</div>
+        <div class="rules-col-title">Win &amp; Lose</div>
+        <div class="rules-body">
+          <p>The game covers <strong>144 months</strong> — January 1928 to December 1939. Survive to the end and you win, regardless of wealth.</p>
+          <div class="rule-item"><strong>Bankrupt</strong> — your net worth goes negative while you still owe the broker. Thousands of Canadians ended here.</div>
+          <div class="rule-item"><strong>Destitute</strong> — all cash and stocks gone, no debt remaining. The Depression ground you to nothing.</div>
+          <div class="rule-item"><strong>Survived</strong> — you reached 1940 with something to show for it.</div>
+          <p>Watch for the <strong>📖 Did You Know?</strong> panels — they explain the real history behind what is happening to your finances each month.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Character summary at bottom -->
+    <div class="rules-character-box">
+      <div class="rules-char-identity">
+        <div class="rules-char-label">You are playing as</div>
+        <div class="rules-char-name" id="rules-char-name">—</div>
+        <div class="rules-char-role" id="rules-char-role">—</div>
+      </div>
+      <div class="rules-char-stats">
+        <div class="rules-char-stat">
+          <div class="rules-char-stat-label">Starting Cash</div>
+          <div class="rules-char-stat-value" id="rules-char-cash">—</div>
+        </div>
+        <div class="rules-char-stat">
+          <div class="rules-char-stat-label">Monthly Wage</div>
+          <div class="rules-char-stat-value" id="rules-char-wage">—</div>
+        </div>
+        <div class="rules-char-stat">
+          <div class="rules-char-stat-label">Expenses</div>
+          <div class="rules-char-stat-value" id="rules-char-expenses">—</div>
+        </div>
+      </div>
+      <div class="rules-char-note" id="rules-char-note">—</div>
+    </div>
+
+    <div class="rules-footer">
+      <button class="screen-btn secondary" onclick="showScreen('screen-character')">← Change Character</button>
+      <button class="screen-btn" onclick="startGame()">❧ Enter January 1928 ❧</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     SCREEN 4 · GAME
+     ═══════════════════════════════════════════════════════════════════ -->
+<div id="screen-game" class="screen">
+  <div id="app">
+    <header>
+      <div class="masthead-title" id="masthead-title">Hard Times</div>
+      <div class="masthead-center">
+        <div class="masthead-sub" id="masthead-sub">A Canadian Economic Survival Chronicle · Est. 1928</div>
+        <div id="date-display">January 1928</div>
+      </div>
+      <div class="masthead-index">
+        Index: <span id="index-value-display" style="color:var(--ink);font-weight:700">100.00</span>
+        &nbsp;<span id="index-change-display">—</span>
+      </div>
+      <button class="lang-btn-header" id="lang-btn-header" onclick="toggleLanguage()">FR</button>
+    </header>
+
+    <!-- Timeline progress bar -->
+    <div id="timeline-bar">
+      <div id="timeline-fill"></div>
+      <div class="timeline-marker" style="left:16.7%" title="Wall Street Crash — Oct 1929"><span>1929</span></div>
+      <div class="timeline-marker" style="left:33.3%" title="Darkest year — 25% unemployment"><span>1932</span></div>
+      <div class="timeline-marker" style="left:48.6%" title="King elected — relief programs"><span>1935</span></div>
+      <div class="timeline-marker" style="left:76.4%" title="Canada declares war — Depression ends"><span>1939</span></div>
+      <div id="timeline-label"></div>
+    </div>
+
+    <main>
+      <div id="sidebar">
+
+        <!-- Character identity tag -->
+        <div id="character-tag">
+          <div class="tag-name" id="tag-name">—</div>
+          <div class="tag-role" id="tag-role">—</div>
+        </div>
+
+        <!-- Your Ledger -->
+        <div class="panel">
+          <div class="panel-title">Your Ledger</div>
+          <div class="ledger-row">
+            <span class="ledger-label">Cash on Hand</span>
+            <span class="ledger-value" id="cash-display">$1,000.00</span>
+          </div>
+          <div class="ledger-row">
+            <span class="ledger-label">Portfolio Value</span>
+            <span class="ledger-value" id="portfolio-display">$0.00</span>
+          </div>
+          <div class="ledger-row" style="margin-top:4px;padding-top:4px;border-top:1px solid var(--rule)">
+            <span class="ledger-label" style="font-size:10px;color:var(--ink)">NET WORTH</span>
+            <span class="ledger-value" id="net-worth-value">$1,000.00</span>
+          </div>
+        </div>
+
+        <!-- Margin Account -->
+        <div class="panel">
+          <div class="panel-title">Margin Account</div>
+          <div class="ledger-row">
+            <span class="ledger-label">Debt Owed</span>
+            <span class="ledger-value" id="debt-value">$0.00</span>
+          </div>
+          <div class="ledger-row">
+            <span class="ledger-label">Interest Rate</span>
+            <span class="ledger-value" id="interest-rate-display">5%/mo</span>
+          </div>
+          <div class="ledger-row">
+            <span class="ledger-label">Interest Due</span>
+            <span class="ledger-value" id="interest-due-display">$0.00</span>
+          </div>
+          <div class="ledger-row">
+            <span class="ledger-label">Portfolio / Debt</span>
+            <span class="ledger-value" id="margin-ratio-display">—</span>
+          </div>
+          <div id="margin-warning">⚠ Margin Call Risk!</div>
+          <div class="borrow-section-label">Borrow from broker</div>
+          <div class="borrow-row">
+            <input class="borrow-input" type="number" min="50" step="50" value="200"
+                   id="borrow-amount" aria-label="Amount to borrow"/>
+            <button class="btn-borrow" onclick="handleBorrow()">BORROW</button>
+          </div>
+          <div class="borrow-section-label">Repay broker</div>
+          <div class="borrow-row">
+            <input class="borrow-input" type="number" min="50" step="50" value="200"
+                   id="repay-amount" aria-label="Amount to repay"/>
+            <button class="btn-repay" onclick="handleRepay()">REPAY</button>
+          </div>
+        </div>
+
+        <!-- Family Wellbeing Meter -->
+        <div id="family-panel">
+          <div class="family-title">Family Wellbeing</div>
+          <div class="family-meter-row">
+            <span class="family-meter-label">Health</span>
+            <div class="family-meter-bar"><div class="family-meter-fill high" id="meter-health" style="width:100%"></div></div>
+          </div>
+          <div class="family-meter-row">
+            <span class="family-meter-label">Food</span>
+            <div class="family-meter-bar"><div class="family-meter-fill high" id="meter-food" style="width:100%"></div></div>
+          </div>
+          <div class="family-meter-row">
+            <span class="family-meter-label">Morale</span>
+            <div class="family-meter-bar"><div class="family-meter-fill high" id="meter-morale" style="width:100%"></div></div>
+          </div>
+          <div class="family-status-text" id="family-status-text">Your family is managing well.</div>
+        </div>
+
+        <!-- NPC Neighbour -->
+        <div id="neighbour-panel">
+          <div class="neighbour-title">Your Neighbour</div>
+          <div class="neighbour-name" id="neighbour-name">—</div>
+          <div class="neighbour-status" id="neighbour-status">—</div>
+          <div class="neighbour-event" id="neighbour-event"></div>
+        </div>
+
+        <!-- Household -->
+        <div class="panel" id="household-panel">
+          <div class="panel-title">Household</div>
+          <div class="ledger-row">
+            <span class="ledger-label">Employment</span>
+            <span class="ledger-value" id="job-status-value">Employed</span>
+          </div>
+          <div class="ledger-row">
+            <span class="ledger-label">Monthly Wages</span>
+            <span class="ledger-value" id="income-display">$45.00</span>
+          </div>
+          <div class="ledger-row">
+            <span class="ledger-label">Food</span>
+            <span class="ledger-value" id="food-display">$8.00</span>
+          </div>
+          <div class="ledger-row">
+            <span class="ledger-label">Rent</span>
+            <span class="ledger-value" id="rent-display">$15.00</span>
+          </div>
+          <div class="ledger-row" style="margin-top:4px;padding-top:4px;border-top:1px solid var(--rule)">
+            <span class="ledger-label" style="font-size:10px;color:var(--ink)">MONTHLY FLOW</span>
+            <span class="ledger-value" id="flow-display">+$22.00</span>
+          </div>
+          <div id="life-event-banner">—</div>
+        </div>
+
+        <div style="flex:1"></div>
+      </div><!-- end #sidebar -->
+
+      <div id="content">
+        <div id="market-panel">
+          <div class="market-title">Toronto &amp; New York Stock Exchange — Market Board</div>
+          <table class="stock-table">
+            <thead>
+              <tr>
+                <th style="width:24%">Company</th>
+                <th style="width:14%">Sector / Risk</th>
+                <th style="width:28%" class="tip-col">Why it matters</th>
+                <th style="width:11%">Price</th>
+                <th style="width:8%">% Chg</th>
+                <th style="width:5%;text-align:center">Held</th>
+                <th>Trade</th>
+              </tr>
+            </thead>
+            <tbody id="stock-rows"></tbody>
+          </table>
+        </div>
+
+        <div id="edu-toast">
+          <div class="edu-toast-header">
+            <span>📖 Did You Know?</span>
+            <button id="edu-toast-close" onclick="dismissEduToast()">I understand ✓</button>
+          </div>
+          <div id="edu-toast-body"></div>
+        </div>
+
+        <div id="event-log"></div>
+        <button id="next-turn-btn" onclick="nextTurn()">Advance to Next Month <span id="spacebar-hint">[ Space ]</span></button>
+      </div><!-- end #content -->
+
+      <!-- Historical Photo Database — right panel -->
+      <div id="photo-panel">
+        <div class="photo-panel-title">
+          <span>📷 Historical Photos</span>
+          <span class="photo-count" id="photo-count">0 / 13</span>
+        </div>
+        <div id="photo-thumbs"></div>
+        <div class="photo-empty" id="photo-empty">
+          Historical photographs will appear here as you progress through the Depression.
+        </div>
+      </div>
+
+    </main>
+  </div><!-- end #app -->
+</div>
+
+<!-- Historical Photo Overlay -->
+<div id="photo-overlay">
+  <div class="photo-overlay-inner">
+    <div class="photo-overlay-frame">
+      <img id="photo-overlay-img" src="" alt="Historical photograph"/>
+    </div>
+    <div class="photo-overlay-caption">
+      <div class="photo-overlay-title" id="photo-overlay-title"></div>
+      <div class="photo-overlay-year" id="photo-overlay-year"></div>
+      <div class="photo-overlay-text" id="photo-overlay-text"></div>
+      <div class="photo-overlay-credit" id="photo-overlay-credit"></div>
+    </div>
+    <button class="screen-btn" onclick="dismissPhotoOverlay()">Continue</button>
+  </div>
+</div>
+
+<!-- BLACK TUESDAY crash overlay (turn 21) -->
+<div id="crash-overlay">
+  <div class="crash-subhead">Extra! Extra! — October 29, 1929</div>
+  <div class="crash-headline">Black Tuesday — Wall Street Collapses!</div>
+  <div class="crash-body">
+    In a single day, billions of dollars in stock value vanished. Investors who had borrowed to buy shares were ruined instantly — their brokers demanded repayment on loans they could never cover. The panic spread north within hours. By evening, the Toronto Stock Exchange had fallen off a cliff.
+    <br><br>
+    This is the moment that will define the next decade of your life.
+  </div>
+  <div class="crash-stat-row">
+    <div class="crash-stat">
+      <span class="crash-stat-value">−20%</span>
+      <span class="crash-stat-label">Market in one day</span>
+    </div>
+    <div class="crash-stat">
+      <span class="crash-stat-value">$14B</span>
+      <span class="crash-stat-label">Wealth destroyed</span>
+    </div>
+    <div class="crash-stat">
+      <span class="crash-stat-value">1 in 4</span>
+      <span class="crash-stat-label">Canadians unemployed by 1932</span>
+    </div>
+  </div>
+  <button class="screen-btn" onclick="dismissCrashOverlay()">I understand what just happened</button>
+</div>
+
+<!-- Game-over / victory overlay -->
+<div id="overlay">
+  <h2 id="overlay-title">Ruined!</h2>
+  <p  id="overlay-msg">The markets have claimed another soul.</p>
+  <div class="overlay-btns">
+    <button onclick="restartGame()">Play Again</button>
+    <button class="secondary" onclick="newCharacter()">New Character</button>
+  </div>
+  <div id="journal-download-row" style="display:none;margin-top:20px;">
+    <button class="journal-download-btn" onclick="startHistoricalReflections('Survived!')">
+      Download Reflection Journal
+    </button>
+    <p class="journal-download-hint">Opens as a file → open in Chrome → Ctrl+P → Save as PDF</p>
+  </div>
+</div>
+
+<!-- SCREEN 5 · HISTORICAL REFLECTION (shown after early game-over) -->
+<div id="screen-historical" class="screen">
+  <div class="page-card hist-card">
+    <div class="hist-header">
+      <div class="hist-eyebrow" id="hist-eyebrow">Your game ended — but history continued</div>
+      <div class="hist-title" id="hist-title">Complete Your Reflection Journal</div>
+      <div class="hist-sub" id="hist-sub">Answer the remaining questions from a historical perspective.</div>
+      <div class="hist-outcome-msg" id="hist-outcome-msg" style="display:none"></div>
+    </div>
+    <div class="hist-progress-row">
+      <span class="hist-progress-label" id="hist-progress-label">Question 1 of 9</span>
+      <div class="hist-progress-bar"><div class="hist-progress-fill" id="hist-progress-fill"></div></div>
+    </div>
+    <div class="hist-body">
+      <div class="hist-year-badge" id="hist-year-badge">1930</div>
+      <div class="hist-question" id="hist-question">—</div>
+      <div class="hist-context" id="hist-context">—</div>
+      <div class="hist-framing" id="hist-framing"></div>
+      <textarea class="reflection-textarea" id="hist-textarea"
+        placeholder="Write your answer here..."
+        oninput="onHistReflectInput()" rows="6"></textarea>
+      <div class="reflection-counter" id="hist-counter">0 / 20 characters minimum</div>
+    </div>
+    <div class="hist-footer">
+      <span class="hist-footer-note">Your answers will appear in your downloadable Reflection Journal.</span>
+      <button class="screen-btn" id="hist-next-btn" onclick="submitHistReflection()" disabled>Save &amp; Next →</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal backdrop — Decision Prompts, Hot Tips, Annual Report Card -->
+<div id="modal-backdrop">
+  <div class="modal-card" id="modal-card">
+    <div class="modal-masthead">
+      <span class="modal-masthead-title" id="modal-title">Hard Times</span>
+      <span class="modal-masthead-date" id="modal-date"></span>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-footer" id="modal-footer"></div>
+  </div>
+</div>
+
+<!-- SCREEN 6 · JOURNAL COMPLETE -->
+<div id="screen-complete" class="screen">
+  <div class="page-card" style="max-width:560px;align-items:center;text-align:center;padding:48px 48px 44px;margin:auto;">
+    <p class="intro-eyebrow">Hard Times — Canada 1928</p>
+    <div style="font-size:48px;margin-bottom:16px;">✓</div>
+    <div style="font-family:'Special Elite',cursive;font-size:24px;margin-bottom:10px;color:var(--ink);">
+      Reflection Journal Complete
+    </div>
+    <div class="intro-rule"></div>
+    <p class="intro-body" id="complete-count" style="margin-bottom:8px;"></p>
+    <p class="intro-body" style="font-size:12px;margin-bottom:28px;">
+      Your journal is ready to download. Open it in Chrome,
+      then press <strong>Ctrl+P</strong> and choose <strong>Save as PDF</strong>
+      to submit via Google Classroom.
+    </p>
+    <button class="screen-btn" onclick="downloadJournalPDF()">
+      Download Reflection Journal
+    </button>
+    <p style="font-family:'Courier Prime',monospace;font-size:9px;color:var(--faded);margin-top:16px;">
+      A .html file will save to your Downloads folder
+    </p>
+    <div style="display:flex;gap:12px;margin-top:28px;">
+      <button class="screen-btn secondary" onclick="restartGame()">Play Again</button>
+      <button class="screen-btn secondary" onclick="newCharacter()">New Character</button>
+    </div>
+  </div>
+</div>
+
+<!-- Scripts: translations must load first, then data, then logic, then play-mode -->
+<script src="translations-fr.js"></script>
+<script src="game-data.js"></script>
+<script src="game-logic.js"></script>
+<script src="play-mode.js"></script>
+
+</body>
+</html>
